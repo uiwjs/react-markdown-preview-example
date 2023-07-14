@@ -92,7 +92,7 @@ export default (conf: WebpackConfiguration, env: 'development' | 'production', o
 
 ## Preview React Example
 
-```tsx mdx:preview
+```tsx mdx:preview&boreder=0
 import React from 'react';
 const Demo = () => <div>Preview React Example</div>
 export default Demo;
@@ -115,8 +115,15 @@ Note ⚠️: You need to add a special `meta` identifier to the code block examp
 1. `mdx:` special identifier prefix
 2. `mdx:preview` Controls whether to perform example indexing, and obtain the required example object through the corresponding line number.
 3. `mdx:preview:demo12` Uniquely identified by `demo12`, accurately obtain the `example code` or `example component object` of the index.
-4. `mdx:preview:&code=true&border=0` pass the parameters for the rendering layer to use.
+4. `mdx:preview:&code=0&border=0` pass the parameters for the rendering layer to use.
 
+Support **meta** param:
+
+1. `title` sample title
+2. `boreder` = `1 | 0` Set the display border
+3. `checkered` = `1 | 0` disable Checkered
+3. `code` = `1 | 0` Whether to display source code
+3. `toolbar` = `1 | 0` Whether to show the code folding button
 
 ## Development
 

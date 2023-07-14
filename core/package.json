@@ -26,25 +26,13 @@
     "esm"
   ],
   "keywords": [
-    "array-viewer",
     "component",
-    "interactive",
-    "interactive-json",
-    "json",
-    "json-component",
-    "json-display",
-    "json-tree",
-    "json-view",
-    "json-viewer",
-    "json-inspector",
-    "json-tree",
+    "markdown-preview",
+    "markdown-preview-example",
+    "example",
     "react",
     "react-component",
-    "react-json",
-    "theme",
-    "tree",
-    "tree-view",
-    "treeview"
+    "theme"
   ],
   "dependencies": {
     "@uiw/react-markdown-preview": "^4.1.0",

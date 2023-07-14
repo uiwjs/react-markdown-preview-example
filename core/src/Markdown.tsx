@@ -37,16 +37,22 @@ const CodePreview: FC<CodePreviewProps> = ({ inline, node, components, data, ...
   const Child = components[`${metaId}`];
   if (metaId && typeof Child === 'function') {
     const code = data[metaId].value || '';
-    const { title } = getURLParameters(meta);
+    const { title, boreder = 1, checkered = 1, code: codeNum = 1, toolbar = 1 } = getURLParameters(meta);
     return (
-      <CodeLayout>
+      <CodeLayout bordered={!!Number(boreder)} disableCheckered={!Number(checkered)}>
         <Preview>
           <Child />
         </Preview>
-        <Toolbar text={code}>{title || 'Code Example'}</Toolbar>
-        <Code>
-          <code {...rest} />
-        </Code>
+        {!!Number(toolbar) && (
+          <Toolbar text={code} visibleButton={!!Number(codeNum)}>
+            {title || 'Code Example'}
+          </Toolbar>
+        )}
+        {!!Number(codeNum) && (
+          <Code>
+            <code {...rest} />
+          </Code>
+        )}
       </CodeLayout>
     );
   }

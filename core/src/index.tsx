@@ -48,7 +48,6 @@ export interface MarkdownPreviewExampleProps extends Omit<React.HTMLAttributes<H
 const InternalMarkdownPreviewExample = forwardRef<HTMLUListElement, MarkdownPreviewExampleProps>((props, ref) => {
   const { version, title, source, components, data, children } = props;
   const store = useStores();
-  const ExampleCom = store.example;
   return (
     <Wrappper>
       <dark-mode
