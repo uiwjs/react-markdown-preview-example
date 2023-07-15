@@ -90,6 +90,17 @@ export default (conf: WebpackConfiguration, env: 'development' | 'production', o
 };
 ```
 
+`src/react-app-env.d.ts`
+
+```ts
+declare var VERSION: string;
+declare module '*.md' {
+  import { CodeBlockData } from 'markdown-react-code-preview-loader';
+  const src: CodeBlockData;
+  export default src;
+}
+```
+
 ## Preview React Example
 
 ```tsx mdx:preview&boreder=0
@@ -124,6 +135,40 @@ Support **meta** param:
 3. `checkered` = `1 | 0` disable Checkered
 3. `code` = `1 | 0` Whether to display source code
 3. `toolbar` = `1 | 0` Whether to show the code folding button
+
+## Props
+
+```ts
+/// <reference types="react" />
+import '@wcj/dark-mode';
+import type { PropsWithChildren } from 'react';
+import type { CodeBlockData } from 'markdown-react-code-preview-loader';
+import type { GitHubCornersProps } from '@uiw/react-github-corners';
+export declare function Github(props: GitHubCornersProps): null;
+export declare function Corners(props: GlobalStore['darkMode']): null;
+export declare function Example({ children }: PropsWithChildren): null;
+export interface MarkdownPreviewExampleProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
+  source: string;
+  components: CodeBlockData['components'];
+  data: CodeBlockData['data'];
+  version?: string;
+  title?: JSX.Element | string;
+}
+declare const InternalMarkdownPreviewExample: import("react").ForwardRefExoticComponent<MarkdownPreviewExampleProps & import("react").RefAttributes<HTMLUListElement>>;
+type ExampleComponent = typeof InternalMarkdownPreviewExample & {
+  Example: typeof Example;
+  Github: typeof Github;
+  Corners: typeof Corners;
+};
+declare const MarkdownPreviewExample: ExampleComponent;
+export default MarkdownPreviewExample;
+
+export interface GlobalStore {
+  corners: GitHubCornersProps;
+  darkMode: Partial<HTMLElementTagNameMap['dark-mode']>;
+  example?: React.ReactNode;
+}
+```
 
 ## Development
 
