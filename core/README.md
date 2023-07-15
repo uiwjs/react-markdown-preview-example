@@ -144,11 +144,11 @@ Support **meta** param:
 ## Props
 
 ```ts
-/// <reference types="react" />
 import '@wcj/dark-mode';
 import type { PropsWithChildren } from 'react';
 import type { CodeBlockData } from 'markdown-react-code-preview-loader';
 import type { GitHubCornersProps } from '@uiw/react-github-corners';
+import type { MarkdownPreviewProps } from '@uiw/react-markdown-preview';
 export declare function Github(props: GitHubCornersProps): null;
 export declare function Corners(props: GlobalStore['darkMode']): null;
 export declare function Example({ children }: PropsWithChildren): null;
@@ -158,6 +158,13 @@ export interface MarkdownPreviewExampleProps extends Omit<React.HTMLAttributes<H
   data: CodeBlockData['data'];
   version?: string;
   title?: JSX.Element | string;
+  markdownProps?: MarkdownPreviewProps;
+  logo?: JSX.Element;
+  description?: JSX.Element | string;
+  disableCorners?: boolean;
+  disableDarkMode?: boolean;
+  disableHeader?: boolean;
+  disableBackToUp?: boolean;
 }
 declare const InternalMarkdownPreviewExample: import("react").ForwardRefExoticComponent<MarkdownPreviewExampleProps & import("react").RefAttributes<HTMLUListElement>>;
 type ExampleComponent = typeof InternalMarkdownPreviewExample & {
