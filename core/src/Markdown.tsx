@@ -15,11 +15,11 @@ const Toolbar = CodeLayout.Toolbar;
 const MarkdownStyle = styled(MarkdownPreview)`
   margin: 0 auto;
   box-shadow: rgb(8 15 41 / 8%) 0.5rem 0.5rem 2rem 0px, rgb(8 15 41 / 8%) 0px 0px 1px 0px;
-  border: 1px solid var(--color-border-muted);
+  border: 1px solid var(--color-border-default, #30363d);
   text-align: left;
   max-width: 56rem;
   overflow: auto;
-  padding: 2.3rem 3rem;
+  padding: 3rem 3rem;
   border-radius: 5px;
 `;
 
@@ -70,7 +70,7 @@ export default function Markdown(props: MarkdownProps) {
   const { source, components, data } = props;
   return (
     <MarkdownStyle
-      style={{ paddingTop: 30 }}
+      // style={{ paddingTop: 30 }}
       disableCopy={true}
       rehypePlugins={[rehypeIgnore]}
       source={source}
