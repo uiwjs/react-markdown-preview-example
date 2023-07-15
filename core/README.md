@@ -49,6 +49,28 @@ const Example = MarkdownPreviewExample.Example;
 </MarkdownPreviewExample>
 ```
 
+just markdown _preview_ and **run** in markdown show **react** example.
+
+```tsx
+import MarkdownPreview from '@uiw/react-markdown-preview-example/markdown';
+import data from './docs/README.md';
+
+data.source     // => `README.md` raw string text
+data.components // => The component index object, the React component converted from the markdown indexed example. (need to configure meta)
+data.data       // => The component source code index object, the sample source code indexed from markdown. (need to configure meta)
+
+<Markdown source={data.source} data={data} />
+```
+
+```ts
+import type { MarkdownPreviewProps } from '@uiw/react-markdown-preview';
+import type { CodeBlockData } from 'markdown-react-code-preview-loader';
+export interface MarkdownProps extends MarkdownPreviewProps {
+  data: CodeBlockData;
+}
+export default function Markdown(props: MarkdownProps): import("react/jsx-runtime").JSX.Element;
+```
+
 There is a step to pay attention to, which needs to configure the webpack [`loader`](https://www.npmjs.com/package/markdown-react-code-preview-loader). The configuration and usage methods are consistent in Webpack:
 
 ```ts

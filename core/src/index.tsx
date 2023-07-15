@@ -107,7 +107,7 @@ const InternalMarkdownPreviewExample = forwardRef<HTMLUListElement, MarkdownPrev
       )}
       <div></div>
       {store.example && <ExampleWrapper {...exampleProps}>{store.example}</ExampleWrapper>}
-      <Markdown {...markdownProps} source={source} components={components} data={data} />
+      <Markdown {...markdownProps} source={source} data={{ data, components, source }} />
       {children}
       {!disableBackToUp && <BackToUp>Top</BackToUp>}
     </Wrappper>

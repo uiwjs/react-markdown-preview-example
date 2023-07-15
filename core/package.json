@@ -11,6 +11,19 @@
   },
   "author": "Kenny Wang<wowohoo@qq.com>",
   "license": "MIT",
+  "exports": {
+    "./README.md": "./README.md",
+    ".": {
+      "import": "./esm/index.js",
+      "types": "./cjs/index.d.ts",
+      "require": "./cjs/index.js"
+    },
+    "./markdown": {
+      "import": "./esm/Markdown/index.js",
+      "types": "./cjs/Markdown/index.d.ts",
+      "require": "./cjs/Markdown/index.js"
+    }
+  },
   "peerDependencies": {
     "@babel/runtime": ">=7.10.0",
     "react": ">=18.0.0",

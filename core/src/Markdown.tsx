@@ -2,6 +2,7 @@ import CodeLayout from 'react-code-preview-layout';
 import { getMetaId, isMeta, getURLParameters } from 'markdown-react-code-preview-loader';
 import MarkdownPreview from '@uiw/react-markdown-preview';
 import type { MarkdownPreviewProps } from '@uiw/react-markdown-preview';
+import type { CodeBlockData } from 'markdown-react-code-preview-loader';
 import styled from 'styled-components';
 import rehypeIgnore from 'rehype-ignore';
 import { CodeProps } from 'react-markdown/lib/ast-to-react';
@@ -60,22 +61,21 @@ const CodePreview: FC<CodePreviewProps> = ({ inline, node, components, data, ...
   return <code {...rest} />;
 };
 
-interface MarkdownProps extends MarkdownPreviewProps {
-  source: string;
-  components: MarkdownPreviewExampleProps['components'];
-  data: MarkdownPreviewExampleProps['data'];
+export interface MarkdownProps extends MarkdownPreviewProps {
+  data: CodeBlockData;
 }
 
 export default function Markdown(props: MarkdownProps) {
-  const { source, components, data } = props;
+  const { source, components, data, ...reset } = props;
   return (
     <MarkdownStyle
-      // style={{ paddingTop: 30 }}
       disableCopy={true}
-      rehypePlugins={[rehypeIgnore]}
-      source={source}
+      rehypePlugins={[rehypeIgnore, ...(reset.rehypePlugins || [])]}
+      {...reset}
+      source={data.source}
       components={{
-        code: (rest) => <CodePreview {...rest} components={components} data={data} />,
+        ...components,
+        code: (rest) => <CodePreview {...rest} components={data.components} data={data.data} />,
       }}
     />
   );
