@@ -16,6 +16,8 @@ const ExampleWrapper = styled.div`
   max-width: 56rem;
   margin: 0 auto;
   padding: 2.3rem 3rem;
+  display: flex;
+  justify-content: center;
 `;
 const Wrappper = styled.div`
   padding-bottom: 12rem;
@@ -52,6 +54,7 @@ export interface MarkdownPreviewExampleProps extends Omit<React.HTMLAttributes<H
   version?: string;
   title?: JSX.Element | string;
   markdownProps?: MarkdownPreviewProps;
+  exampleProps?: React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
   logo?: JSX.Element;
   description?: JSX.Element | string;
   disableCorners?: boolean;
@@ -70,6 +73,7 @@ const InternalMarkdownPreviewExample = forwardRef<HTMLUListElement, MarkdownPrev
     components,
     data,
     markdownProps,
+    exampleProps,
     className = '',
     children,
     disableCorners = false,
@@ -101,7 +105,8 @@ const InternalMarkdownPreviewExample = forwardRef<HTMLUListElement, MarkdownPrev
           {description && <Description>{description}</Description>}
         </Header>
       )}
-      {store.example && <ExampleWrapper>{store.example}</ExampleWrapper>}
+      <div></div>
+      {store.example && <ExampleWrapper {...exampleProps}>{store.example}</ExampleWrapper>}
       <Markdown {...markdownProps} source={source} components={components} data={data} />
       {children}
       {!disableBackToUp && <BackToUp>Top</BackToUp>}
