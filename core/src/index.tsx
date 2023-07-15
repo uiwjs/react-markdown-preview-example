@@ -4,6 +4,7 @@ import { styled } from 'styled-components';
 import type { CodeBlockData } from 'markdown-react-code-preview-loader';
 import GitHubCorners from '@uiw/react-github-corners';
 import BackToUp from '@uiw/react-back-to-top';
+import type { MarkdownPreviewProps } from '@uiw/react-markdown-preview';
 import { Github } from './Github';
 import { Corners } from './Corners';
 import { Example } from './Example';
@@ -43,10 +44,11 @@ export interface MarkdownPreviewExampleProps extends Omit<React.HTMLAttributes<H
   data: CodeBlockData['data'];
   version?: string;
   title?: JSX.Element | string;
+  markdownProps?: MarkdownPreviewProps;
 }
 
 const InternalMarkdownPreviewExample = forwardRef<HTMLUListElement, MarkdownPreviewExampleProps>((props, ref) => {
-  const { version, title, source, components, data, children } = props;
+  const { version, title, source, components, data, markdownProps, children } = props;
   const store = useStores();
   return (
     <Wrappper>
@@ -65,7 +67,7 @@ const InternalMarkdownPreviewExample = forwardRef<HTMLUListElement, MarkdownPrev
         )}
       </Header>
       {store.example && <ExampleWrapper>{store.example}</ExampleWrapper>}
-      <Markdown source={source} components={components} data={data} />
+      <Markdown {...markdownProps} source={source} components={components} data={data} />
       {children}
       <BackToUp>Top</BackToUp>
     </Wrappper>

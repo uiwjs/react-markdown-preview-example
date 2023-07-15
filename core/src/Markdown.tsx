@@ -1,6 +1,7 @@
 import CodeLayout from 'react-code-preview-layout';
 import { getMetaId, isMeta, getURLParameters } from 'markdown-react-code-preview-loader';
 import MarkdownPreview from '@uiw/react-markdown-preview';
+import type { MarkdownPreviewProps } from '@uiw/react-markdown-preview';
 import styled from 'styled-components';
 import rehypeIgnore from 'rehype-ignore';
 import { CodeProps } from 'react-markdown/lib/ast-to-react';
@@ -59,7 +60,7 @@ const CodePreview: FC<CodePreviewProps> = ({ inline, node, components, data, ...
   return <code {...rest} />;
 };
 
-interface MarkdownProps {
+interface MarkdownProps extends MarkdownPreviewProps {
   source: string;
   components: MarkdownPreviewExampleProps['components'];
   data: MarkdownPreviewExampleProps['data'];
