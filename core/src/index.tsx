@@ -45,31 +45,51 @@ export interface MarkdownPreviewExampleProps extends Omit<React.HTMLAttributes<H
   version?: string;
   title?: JSX.Element | string;
   markdownProps?: MarkdownPreviewProps;
+  disableCorners?: boolean;
+  disableDarkMode?: boolean;
+  disableHeader?: boolean;
+  disableBackToUp?: boolean;
 }
 
 const InternalMarkdownPreviewExample = forwardRef<HTMLUListElement, MarkdownPreviewExampleProps>((props, ref) => {
-  const { version, title, source, components, data, markdownProps, children } = props;
+  const {
+    version,
+    title,
+    source,
+    components,
+    data,
+    markdownProps,
+    children,
+    disableCorners = false,
+    disableDarkMode = false,
+    disableHeader = false,
+    disableBackToUp = false,
+  } = props;
   const store = useStores();
   return (
     <Wrappper>
-      <dark-mode
-        permanent
-        style={{ position: 'fixed', top: 8, left: 12, zIndex: 99, fontSize: 28 }}
-        {...store.darkMode}
-      ></dark-mode>
-      <GitHubCorners fixed target="__blank" zIndex={10} {...store.corners} />
-      <Header>
-        {title && (
-          <h1>
-            {title}
-            {version && <SupVersion>{version}</SupVersion>}
-          </h1>
-        )}
-      </Header>
+      {!disableDarkMode && (
+        <dark-mode
+          permanent
+          style={{ position: 'fixed', top: 8, left: 12, zIndex: 99, fontSize: 28 }}
+          {...store.darkMode}
+        ></dark-mode>
+      )}
+      {!disableCorners && <GitHubCorners fixed target="__blank" zIndex={10} {...store.corners} />}
+      {!disableHeader && (
+        <Header>
+          {title && (
+            <h1>
+              {title}
+              {version && <SupVersion>{version}</SupVersion>}
+            </h1>
+          )}
+        </Header>
+      )}
       {store.example && <ExampleWrapper>{store.example}</ExampleWrapper>}
       <Markdown {...markdownProps} source={source} components={components} data={data} />
       {children}
-      <BackToUp>Top</BackToUp>
+      {!disableBackToUp && <BackToUp>Top</BackToUp>}
     </Wrappper>
   );
 });
