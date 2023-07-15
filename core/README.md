@@ -26,6 +26,11 @@ $ npm install @uiw/react-markdown-preview-example --save
 
 ```jsx
 import MarkdownPreviewExample from '@uiw/react-markdown-preview-example';
+import data from './docs/README.md';
+
+data.source     // => `README.md` raw string text
+data.components // => The component index object, the React component converted from the markdown indexed example. (need to configure meta)
+data.data       // => The component source code index object, the sample source code indexed from markdown. (need to configure meta)
 
 const Github = MarkdownPreviewExample.Github;
 const Example = MarkdownPreviewExample.Example;
@@ -44,7 +49,7 @@ const Example = MarkdownPreviewExample.Example;
 </MarkdownPreviewExample>
 ```
 
-There is a step to pay attention to, which needs to configure the webpack [loader](https://www.npmjs.com/package/markdown-react-code-preview-loader). The configuration and usage methods are consistent in Webpack:
+There is a step to pay attention to, which needs to configure the webpack [`loader`](https://www.npmjs.com/package/markdown-react-code-preview-loader). The configuration and usage methods are consistent in Webpack:
 
 ```ts
 // .kktrc.ts
@@ -109,7 +114,7 @@ const Demo = () => <div>Preview React Example</div>
 export default Demo;
 ```
 
-Note ⚠️: You need to add a special `meta` identifier to the code block example, and `loader` will index the `react` example for code conversion.
+Note ⚠️: You need to add a special `meta` identifier to the code block example, and [`loader`](https://www.npmjs.com/package/markdown-react-code-preview-loader) will index the `react` example for code conversion.
 
 ```
     Meta Tag         Meta ID   Meta Param
@@ -131,10 +136,10 @@ Note ⚠️: You need to add a special `meta` identifier to the code block examp
 Support **meta** param:
 
 1. `title` sample title
-2. `boreder` = `1 | 0` Set the display border
-3. `checkered` = `1 | 0` disable Checkered
-3. `code` = `1 | 0` Whether to display source code
-3. `toolbar` = `1 | 0` Whether to show the code folding button
+2. `boreder` = `1` | `0`, Set the display border
+3. `checkered` = `1` | `0`, disable Checkered
+3. `code` = `1` | `0`, Whether to display source code
+3. `toolbar` = `1` | `0`, Whether to show the code folding button
 
 ## Props
 
