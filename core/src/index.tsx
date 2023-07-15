@@ -1,15 +1,16 @@
 import { forwardRef } from 'react';
 import '@wcj/dark-mode';
-import { styled } from 'styled-components';
 import type { CodeBlockData } from 'markdown-react-code-preview-loader';
+import type { MarkdownPreviewProps } from '@uiw/react-markdown-preview';
+import { styled } from 'styled-components';
 import GitHubCorners from '@uiw/react-github-corners';
 import BackToUp from '@uiw/react-back-to-top';
-import type { MarkdownPreviewProps } from '@uiw/react-markdown-preview';
 import { Github } from './Github';
 import { Corners } from './Corners';
 import { Example } from './Example';
 import { useStores } from './store';
 import Markdown from './Markdown';
+import { Logo } from './Logo';
 
 const ExampleWrapper = styled.div`
   max-width: 56rem;
@@ -17,7 +18,7 @@ const ExampleWrapper = styled.div`
   padding: 2.3rem 3rem;
 `;
 const Wrappper = styled.div`
-  padding-bottom: 9rem;
+  padding-bottom: 12rem;
 `;
 
 const Header = styled.header`
@@ -38,6 +39,12 @@ const SupVersion = styled.sup`
   position: absolute;
 `;
 
+const Description = styled.p`
+  max-width: 460px;
+  margin: 0 auto;
+  color: var(--color-fg-subtle, #6e7781);
+`;
+
 export interface MarkdownPreviewExampleProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
   source: string;
   components: CodeBlockData['components'];
@@ -45,6 +52,8 @@ export interface MarkdownPreviewExampleProps extends Omit<React.HTMLAttributes<H
   version?: string;
   title?: JSX.Element | string;
   markdownProps?: MarkdownPreviewProps;
+  logo?: JSX.Element;
+  description?: JSX.Element | string;
   disableCorners?: boolean;
   disableDarkMode?: boolean;
   disableHeader?: boolean;
@@ -55,19 +64,23 @@ const InternalMarkdownPreviewExample = forwardRef<HTMLUListElement, MarkdownPrev
   const {
     version,
     title,
+    description,
     source,
+    logo = Logo,
     components,
     data,
     markdownProps,
+    className = '',
     children,
     disableCorners = false,
     disableDarkMode = false,
     disableHeader = false,
     disableBackToUp = false,
+    ...reset
   } = props;
   const store = useStores();
   return (
-    <Wrappper>
+    <Wrappper className={`wmde-markdown-var ${className}`} {...reset}>
       {!disableDarkMode && (
         <dark-mode
           permanent
@@ -78,12 +91,14 @@ const InternalMarkdownPreviewExample = forwardRef<HTMLUListElement, MarkdownPrev
       {!disableCorners && <GitHubCorners fixed target="__blank" zIndex={10} {...store.corners} />}
       {!disableHeader && (
         <Header>
+          {logo}
           {title && (
             <h1>
               {title}
               {version && <SupVersion>{version}</SupVersion>}
             </h1>
           )}
+          {description && <Description>{description}</Description>}
         </Header>
       )}
       {store.example && <ExampleWrapper>{store.example}</ExampleWrapper>}

@@ -19,7 +19,7 @@ const MarkdownStyle = styled(MarkdownPreview)`
   text-align: left;
   max-width: 56rem;
   overflow: auto;
-  padding: 3rem 3rem;
+  padding: 2rem;
   border-radius: 5px;
 `;
 

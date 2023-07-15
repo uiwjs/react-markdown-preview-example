@@ -10,6 +10,7 @@ root.render(
     components={data.components}
     data={data.data}
     title="MarkdownPreviewExample for React"
+    description="Preview the markdown files and run the React examples in the documentation."
     version={`v${VERSION}`}
   >
     <MarkdownPreviewExample.Github href="https://github.com/uiwjs/react-markdown-preview-example" />
