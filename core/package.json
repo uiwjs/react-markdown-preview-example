@@ -1,6 +1,6 @@
 {
   "name": "@uiw/react-markdown-preview-example",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Preview the markdown files and run the React examples in the documentation.",
   "main": "cjs/index.js",
   "module": "esm/index.js",
