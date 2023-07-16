@@ -30,11 +30,7 @@
     "react-dom": ">=18.0.0"
   },
   "files": [
-    "editor.d.ts",
-    "dark.d.ts",
-    "light.d.ts",
-    "triangle-arrow.d.ts",
-    "triangle-solid-arrow.d.ts",
+    "markdown.d.ts",
     "cjs",
     "esm"
   ],
