@@ -19,9 +19,9 @@
       "require": "./cjs/index.js"
     },
     "./markdown": {
-      "import": "./esm/Markdown/index.js",
-      "types": "./cjs/Markdown/index.d.ts",
-      "require": "./cjs/Markdown/index.js"
+      "import": "./esm/Markdown.js",
+      "types": "./cjs/Markdown.d.ts",
+      "require": "./cjs/Markdown.js"
     }
   },
   "peerDependencies": {
