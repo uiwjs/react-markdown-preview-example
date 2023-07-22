@@ -160,8 +160,15 @@ Support **meta** param:
 1. `title` sample title
 2. `boreder` = `1` | `0`, Set the display border
 3. `checkered` = `1` | `0`, disable Checkered
-3. `code` = `1` | `0`, Whether to display source code
-3. `toolbar` = `1` | `0`, Whether to show the code folding button
+4. `code` = `1` | `0`, Whether to display source code
+5. `toolbar` = `1` | `0`, Whether to show the code folding button
+
+```tsx mdx:preview
+import React from 'react';
+const Demo = () => <div>Preview React Example</div>
+export default Demo;
+```
+
 
 ## Props
 

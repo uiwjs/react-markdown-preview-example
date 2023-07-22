@@ -5,6 +5,7 @@ import type { MarkdownPreviewProps } from '@uiw/react-markdown-preview';
 import type { CodeBlockData } from 'markdown-react-code-preview-loader';
 import styled from 'styled-components';
 import rehypeIgnore from 'rehype-ignore';
+import { Root, Element, RootContent } from 'hast';
 import { CodeProps } from 'react-markdown/lib/ast-to-react';
 import type { MarkdownPreviewExampleProps } from './';
 import { FC } from 'react';
@@ -32,18 +33,18 @@ type CodePreviewProps = CodeProps & {
 };
 
 const CodePreview: FC<CodePreviewProps> = ({ inline, node, components, data, ...props }) => {
-  const { 'data-meta': meta, ...rest } = props as any;
-  if (inline || !isMeta(meta)) {
+  const { 'data-meta': meta, 'data-md': metaData, ...rest } = props as any;
+  if (inline || !isMeta(metaData)) {
     return <code {...props} />;
   }
   const line = node.position?.start.line;
-  const metaId = getMetaId(meta) || String(line);
+  const metaId = getMetaId(metaData) || String(line);
   const Child = components[`${metaId}`];
   if (metaId && typeof Child === 'function') {
     const code = data[metaId].value || '';
-    const { title, boreder = 1, checkered = 1, code: codeNum = 1, toolbar = 1 } = getURLParameters(meta);
+    const { title, boreder = 1, checkered = 1, code: codeNum = 1, toolbar = 1 } = getURLParameters(metaData);
     return (
-      <CodeLayout bordered={!!Number(boreder)} disableCheckered={!Number(checkered)}>
+      <CodeLayout bordered={!!Number(boreder)} disableCheckered={!Number(checkered)} style={{ marginBottom: 16 }}>
         <Preview>
           <Child />
         </Preview>
@@ -53,7 +54,7 @@ const CodePreview: FC<CodePreviewProps> = ({ inline, node, components, data, ...
           </Toolbar>
         )}
         {!!Number(codeNum) && (
-          <Code>
+          <Code tagName="pre" style={{ marginBottom: 0 }}>
             <code {...rest} />
           </Code>
         )}
@@ -74,10 +75,23 @@ export default function Markdown(props: MarkdownProps) {
       disableCopy={true}
       rehypePlugins={[rehypeIgnore, ...(reset.rehypePlugins || [])]}
       {...reset}
+      rehypeRewrite={(node: Root | RootContent, index: number, parent: Root | Element) => {
+        if (node.type === 'element' && node.tagName === 'pre' && node.children[0].data?.meta) {
+          const meta = node.children[0].data?.meta as string;
+          if (isMeta(meta)) {
+            node.tagName = 'div';
+            if (!node.properties) {
+              node.properties = {};
+            }
+            node.properties!['data-md'] = meta;
+            node.properties!['data-meta'] = 'preview';
+          }
+        }
+      }}
       source={data.source}
       components={{
         ...components,
-        code: (rest) => <CodePreview {...rest} components={data.components} data={data.data} />,
+        div: (rest) => <CodePreview {...rest} components={data.components} data={data.data} />,
       }}
     />
   );
