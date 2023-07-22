@@ -165,10 +165,15 @@ Support **meta** param:
 
 ```tsx mdx:preview
 import React from 'react';
-const Demo = () => <div>Preview React Example</div>
+const Demo = () => <div>Preview React Example: <b>mdx:preview</b></div>
 export default Demo;
 ```
 
+```tsx mdx:preview&checkered=0
+import React from 'react';
+const Demo = () => <div>Preview React Example: <b>mdx:preview&checkered=0</b></div>
+export default Demo;
+```
 
 ## Props
 
