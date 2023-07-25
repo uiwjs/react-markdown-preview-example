@@ -46,7 +46,6 @@
   ],
   "dependencies": {
     "@uiw/react-back-to-top": "1.2.3",
-    "@uiw/react-color-colorful": "^1.3.1",
     "@uiw/react-github-corners": "^1.5.15",
     "@uiw/react-markdown-preview": "^4.1.0",
     "@wcj/dark-mode": "^1.0.13",
