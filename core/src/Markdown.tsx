@@ -69,7 +69,7 @@ export interface MarkdownProps extends MarkdownPreviewProps {
 }
 
 export default function Markdown(props: MarkdownProps) {
-  const { source, components, data, ...reset } = props;
+  const { source, components, data, rehypeRewrite, ...reset } = props;
   return (
     <MarkdownStyle
       disableCopy={true}
@@ -87,6 +87,7 @@ export default function Markdown(props: MarkdownProps) {
             node.properties!['data-meta'] = 'preview';
           }
         }
+        rehypeRewrite && rehypeRewrite(node, index, parent);
       }}
       source={data.source}
       components={{
