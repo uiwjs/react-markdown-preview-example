@@ -76,15 +76,16 @@ export default function Markdown(props: MarkdownProps) {
       rehypePlugins={[rehypeIgnore, ...(reset.rehypePlugins || [])]}
       {...reset}
       rehypeRewrite={(node: Root | RootContent, index: number, parent: Root | Element) => {
-        if (node.type === 'element' && node.tagName === 'pre' && node.children[0].data?.meta) {
-          const meta = node.children[0].data?.meta as string;
+        if (node.type === 'element' && node.tagName === 'pre' && /(pre|code)/.test(node.tagName) && node.children[0]) {
+          const child = node.children[0] as Element;
+          const meta = (child.data?.meta || child.properties?.dataMeta) as string;
           if (isMeta(meta)) {
             node.tagName = 'div';
             if (!node.properties) {
               node.properties = {};
             }
-            node.properties!['data-md'] = meta;
-            node.properties!['data-meta'] = 'preview';
+            node.properties['data-md'] = meta;
+            node.properties['data-meta'] = 'preview';
           }
         }
         rehypeRewrite && rehypeRewrite(node, index, parent);
