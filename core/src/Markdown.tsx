@@ -3,12 +3,12 @@ import { getMetaId, isMeta, getURLParameters } from 'markdown-react-code-preview
 import MarkdownPreview from '@uiw/react-markdown-preview';
 import type { MarkdownPreviewProps } from '@uiw/react-markdown-preview';
 import type { CodeBlockData } from 'markdown-react-code-preview-loader';
+import { type Node } from 'unist';
 import styled from 'styled-components';
 import rehypeIgnore from 'rehype-ignore';
 import { Root, Element, RootContent } from 'hast';
-import { CodeProps } from 'react-markdown/lib/ast-to-react';
+import type { FC } from 'react';
 import type { MarkdownPreviewExampleProps } from './';
-import { FC } from 'react';
 
 const Preview = CodeLayout.Preview;
 const Code = CodeLayout.Code;
@@ -27,22 +27,25 @@ const MarkdownStyle = styled(MarkdownPreview)`
   border-radius: 0.55rem;
 `;
 
-type CodePreviewProps = CodeProps & {
+type CodePreviewProps = React.HTMLAttributes<HTMLDivElement> & {
+  node?: Node;
   components: MarkdownPreviewExampleProps['components'];
   data: MarkdownPreviewExampleProps['data'];
+  'data-meta'?: string;
+  'data-md'?: string;
 };
 
-const CodePreview: FC<CodePreviewProps> = ({ inline, node, components, data, ...props }) => {
-  const { 'data-meta': meta, 'data-md': metaData, ...rest } = props as any;
-  if (inline || !isMeta(metaData)) {
-    return <code {...props} />;
+const CodePreview: FC<CodePreviewProps> = ({ components, data, node, ...props }) => {
+  const { 'data-meta': meta, 'data-md': metaData, ...rest } = props;
+  if (!isMeta(metaData)) {
+    return <div {...props} />;
   }
-  const line = node.position?.start.line;
+  const line = node?.position?.start.line;
   const metaId = getMetaId(metaData) || String(line);
   const Child = components[`${metaId}`];
   if (metaId && typeof Child === 'function') {
     const code = data[metaId].value || '';
-    const { title, boreder = 1, checkered = 1, code: codeNum = 1, toolbar = 1 } = getURLParameters(metaData);
+    const { title, boreder = 1, checkered = 1, code: codeNum = 1, toolbar = 1 } = getURLParameters(metaData || '');
     return (
       <CodeLayout bordered={!!Number(boreder)} disableCheckered={!Number(checkered)} style={{ marginBottom: 16 }}>
         <Preview>
@@ -78,6 +81,7 @@ export default function Markdown(props: MarkdownProps) {
       rehypeRewrite={(node: Root | RootContent, index: number, parent: Root | Element) => {
         if (node.type === 'element' && node.tagName === 'pre' && /(pre|code)/.test(node.tagName) && node.children[0]) {
           const child = node.children[0] as Element;
+          // @ts-ignore
           const meta = (child.data?.meta || child.properties?.dataMeta) as string;
           if (isMeta(meta)) {
             node.tagName = 'div';
