@@ -39,6 +39,7 @@ export const SupVersion = styled.sup`
   margin-left: 0.5em;
   margin-top: -0.3em;
   position: absolute;
+  white-space: nowrap;
 `;
 
 const Description = styled.p`
