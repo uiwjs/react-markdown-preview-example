@@ -9,7 +9,7 @@ export interface GlobalStore {
 }
 
 export interface NavMenuProps {
-  title?: string;
+  title?: JSX.Element | string;
   logo?: React.ReactNode;
   github?: string;
   menus?: Array<JSX.Element>;
