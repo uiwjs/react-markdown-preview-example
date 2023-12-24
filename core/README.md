@@ -34,6 +34,7 @@ data.data       // => The component source code index object, the sample source 
 
 const Github = MarkdownPreviewExample.Github;
 const Example = MarkdownPreviewExample.Example;
+const NavMenu = MarkdownPreviewExample.NavMenu;
 
 <MarkdownPreviewExample
   source={data.source}
@@ -47,6 +48,18 @@ const Example = MarkdownPreviewExample.Example;
     <div>test</div>
   </Example>
 </MarkdownPreviewExample>
+```
+
+```jsx
+import PreviewExample from '@uiw/react-markdown-preview-example';
+
+<PreviewExample.NavMenu
+  title="Markdown Preview Example"
+  menus={[
+    <a target="_blank" href="https://uiwjs.github.io/react-markdown-preview/" rel="noopener noreferrer">Markdown</a>,
+    <a target="_blank" href="https://jaywcjlove.github.io/#/sponsor" rel="noopener noreferrer">Sponsor</a>
+  ]}
+/>
 ```
 
 just markdown _preview_ and **run** in markdown show **react** example.
@@ -183,9 +196,10 @@ import type { PropsWithChildren } from 'react';
 import type { CodeBlockData } from 'markdown-react-code-preview-loader';
 import type { GitHubCornersProps } from '@uiw/react-github-corners';
 import type { MarkdownPreviewProps } from '@uiw/react-markdown-preview';
-export declare function Github(props: GitHubCornersProps): null;
-export declare function Corners(props: GlobalStore['darkMode']): null;
-export declare function Example({ children }: PropsWithChildren): null;
+declare function Github(props: GitHubCornersProps): null;
+declare function Corners(props: GlobalStore['darkMode']): null;
+declare function Example({ children }: PropsWithChildren): null;
+declare function NavMenu(props: NavMenuProps): null;
 export interface MarkdownPreviewExampleProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
   source: string;
   components: CodeBlockData['components'];
@@ -193,6 +207,7 @@ export interface MarkdownPreviewExampleProps extends Omit<React.HTMLAttributes<H
   version?: string;
   title?: JSX.Element | string;
   markdownProps?: MarkdownPreviewProps;
+  exampleProps?: React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
   logo?: JSX.Element;
   description?: JSX.Element | string;
   disableCorners?: boolean;
@@ -205,14 +220,21 @@ type ExampleComponent = typeof InternalMarkdownPreviewExample & {
   Example: typeof Example;
   Github: typeof Github;
   Corners: typeof Corners;
+  NavMenu: typeof NavMenu;
 };
 declare const MarkdownPreviewExample: ExampleComponent;
 export default MarkdownPreviewExample;
-
+export interface NavMenuProps {
+  title?: string;
+  logo?: React.ReactNode;
+  github?: string;
+  menus?: Array<React.AnchorHTMLAttributes<HTMLAnchorElement>>;
+}
 export interface GlobalStore {
   corners: GitHubCornersProps;
   darkMode: Partial<HTMLElementTagNameMap['dark-mode']>;
   example?: React.ReactNode;
+  navMenu?: NavMenuProps;
 }
 ```
 

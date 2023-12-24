@@ -9,10 +9,22 @@ root.render(
     source={data.source}
     components={data.components}
     data={data.data}
-    title="MarkdownPreviewExample for React"
+    // logo={null}
+    // title="MarkdownPreviewExample for React"
     description="Preview the markdown files and run the React examples in the documentation."
     version={`v${VERSION}`}
   >
+    <MarkdownPreviewExample.NavMenu
+      title="Markdown Preview Example"
+      menus={[
+        <a target="_blank" href="https://uiwjs.github.io/react-markdown-preview/" rel="noopener noreferrer">
+          Markdown
+        </a>,
+        <a target="_blank" href="https://jaywcjlove.github.io/#/sponsor" rel="noopener noreferrer">
+          Sponsor
+        </a>,
+      ]}
+    />
     <MarkdownPreviewExample.Github href="https://github.com/uiwjs/react-markdown-preview-example" />
     <MarkdownPreviewExample.Example>
       <div></div>

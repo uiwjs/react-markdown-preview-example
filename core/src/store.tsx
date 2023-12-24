@@ -5,6 +5,14 @@ export interface GlobalStore {
   corners: GitHubCornersProps;
   darkMode: Partial<HTMLElementTagNameMap['dark-mode']>;
   example?: React.ReactNode;
+  navMenu?: NavMenuProps;
+}
+
+export interface NavMenuProps {
+  title?: string;
+  logo?: React.ReactNode;
+  github?: string;
+  menus?: Array<JSX.Element>;
 }
 
 let globalStore: GlobalStore = {
@@ -40,13 +48,19 @@ export const store = {
         ...opts,
       },
     };
-    console.log('globalStore:', globalStore);
     emitChange();
   },
   setExample(example: React.ReactNode) {
     globalStore = {
       ...globalStore,
       example,
+    };
+    emitChange();
+  },
+  setNavMenu(navMenu: NavMenuProps) {
+    globalStore = {
+      ...globalStore,
+      navMenu: { ...globalStore.navMenu, ...navMenu },
     };
     emitChange();
   },

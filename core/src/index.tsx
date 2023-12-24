@@ -3,11 +3,11 @@ import '@wcj/dark-mode';
 import type { CodeBlockData } from 'markdown-react-code-preview-loader';
 import type { MarkdownPreviewProps } from '@uiw/react-markdown-preview';
 import { styled } from 'styled-components';
-import GitHubCorners from '@uiw/react-github-corners';
 import BackToUp from '@uiw/react-back-to-top';
 import { Github } from './Github';
 import { Corners } from './Corners';
 import { Example } from './Example';
+import { NavMenu, NavMenuView } from './NavMenu';
 import { useStores } from './store';
 import Markdown from './Markdown';
 import { Logo } from './Logo';
@@ -24,7 +24,7 @@ const Wrappper = styled.div`
 `;
 
 const Header = styled.header`
-  padding: 6rem 0 2rem 0;
+  padding: 9rem 0 2rem 0;
   text-align: center;
   h1 {
     font-weight: 900;
@@ -33,7 +33,7 @@ const Header = styled.header`
   }
 `;
 
-const SupVersion = styled.sup`
+export const SupVersion = styled.sup`
   font-weight: 200;
   font-size: 0.78rem;
   margin-left: 0.5em;
@@ -55,7 +55,7 @@ export interface MarkdownPreviewExampleProps extends Omit<React.HTMLAttributes<H
   title?: JSX.Element | string;
   markdownProps?: MarkdownPreviewProps;
   exampleProps?: React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
-  logo?: JSX.Element;
+  logo?: JSX.Element | null;
   description?: JSX.Element | string;
   disableCorners?: boolean;
   disableDarkMode?: boolean;
@@ -85,14 +85,7 @@ const InternalMarkdownPreviewExample = forwardRef<HTMLUListElement, MarkdownPrev
   const store = useStores();
   return (
     <Wrappper className={`wmde-markdown-var ${className}`} {...reset}>
-      {!disableDarkMode && (
-        <dark-mode
-          permanent
-          style={{ position: 'fixed', top: 8, left: 12, zIndex: 99, fontSize: 28 }}
-          {...store.darkMode}
-        ></dark-mode>
-      )}
-      {!disableCorners && <GitHubCorners fixed target="__blank" zIndex={10} {...store.corners} />}
+      <NavMenuView version={version} logo={logo} disableDarkMode={disableDarkMode} disableCorners={disableCorners} />
       {!disableHeader && (
         <Header>
           {logo}
@@ -105,7 +98,6 @@ const InternalMarkdownPreviewExample = forwardRef<HTMLUListElement, MarkdownPrev
           {description && <Description>{description}</Description>}
         </Header>
       )}
-      <div></div>
       {store.example && <ExampleWrapper {...exampleProps}>{store.example}</ExampleWrapper>}
       <Markdown {...markdownProps} source={source} data={{ data, components, source }} />
       {children}
@@ -118,6 +110,7 @@ type ExampleComponent = typeof InternalMarkdownPreviewExample & {
   Example: typeof Example;
   Github: typeof Github;
   Corners: typeof Corners;
+  NavMenu: typeof NavMenu;
 };
 
 const MarkdownPreviewExample: ExampleComponent = InternalMarkdownPreviewExample as unknown as ExampleComponent;
@@ -125,5 +118,6 @@ const MarkdownPreviewExample: ExampleComponent = InternalMarkdownPreviewExample 
 MarkdownPreviewExample.Github = Github;
 MarkdownPreviewExample.Corners = Corners;
 MarkdownPreviewExample.Example = Example;
+MarkdownPreviewExample.NavMenu = NavMenu;
 
 export default MarkdownPreviewExample;
