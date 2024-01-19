@@ -21,7 +21,7 @@ const Nav = styled.nav`
   position: fixed;
   width: 100%;
   backdrop-filter: saturate(180%) blur(0.4rem);
-  border-bottom: 1px solid var(--color-border-default, #30363d);
+  border-bottom: 1px solid var(--color-neutral-muted, #30363d);
   z-index: 99;
   top: 0;
   left: 0;
