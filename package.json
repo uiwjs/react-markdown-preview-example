@@ -7,7 +7,7 @@
     "doc": "lerna exec --scope website -- npm run build",
     "test": "lerna exec --scope @uiw/react-markdown-preview-example -- tsbb test --env=jsdom",
     "coverage": "lerna exec --scope @uiw/react-markdown-preview-example -- tsbb test --env=jsdom --coverage --bail",
-    "prepare": "husky install",
+    "prepare": "husky",
     "publish": "lerna publish from-package --yes --no-verify-access",
     "version": "lerna version --exact --force-publish --no-push --no-git-tag-version",
     "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
