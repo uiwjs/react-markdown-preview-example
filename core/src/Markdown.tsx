@@ -1,14 +1,12 @@
+import type { FC } from 'react';
 import CodeLayout from 'react-code-preview-layout';
 import { getMetaId, isMeta, getURLParameters } from 'markdown-react-code-preview-loader';
 import MarkdownPreview from '@uiw/react-markdown-preview';
 import type { MarkdownPreviewProps } from '@uiw/react-markdown-preview';
 import type { CodeBlockData } from 'markdown-react-code-preview-loader';
-import { type Node } from 'unist';
+import type { Element, RootContent } from 'hast';
 import styled from 'styled-components';
 import rehypeIgnore from 'rehype-ignore';
-import { Root, Element, RootContent } from 'hast';
-import type { FC } from 'react';
-import type { MarkdownPreviewExampleProps } from './';
 
 const Preview = CodeLayout.Preview;
 const Code = CodeLayout.Code;
@@ -27,44 +25,47 @@ const MarkdownStyle = styled(MarkdownPreview)`
   border-radius: 0.55rem;
 `;
 
-type CodePreviewProps = React.HTMLAttributes<HTMLDivElement> & {
-  node?: Node;
-  components: MarkdownPreviewExampleProps['components'];
-  data: MarkdownPreviewExampleProps['data'];
-  'data-meta'?: string;
-  'data-md'?: string;
+type CodePreviewProps = React.HTMLAttributes<HTMLPreElement> & {
+  node?: RootContent;
+  components: CodeBlockData['components'];
+  data: CodeBlockData['data'];
 };
 
 const CodePreview: FC<CodePreviewProps> = ({ components, data, node, ...props }) => {
-  const { 'data-meta': meta, 'data-md': metaData, ...rest } = props;
-  if (!isMeta(metaData)) {
-    return <div {...props} />;
+  if (node && node.type === 'element' && node.tagName === 'pre') {
+    const child = node.children[0] as Element;
+    if (!child) return <pre {...props} />;
+    const meta = ((child.data as any)?.meta || child.properties?.dataMeta) as string;
+    if (!isMeta(meta)) {
+      return <pre {...props} />;
+    }
+    const line = node?.position?.start.line;
+    const metaId = getMetaId(meta) || String(line);
+    const Child = components[`${metaId}`];
+    if (metaId && typeof Child === 'function') {
+      const code = data[metaId].value || '';
+      const { title, boreder = 1, checkered = 1, code: codeNum = 1, toolbar = 1 } = getURLParameters(meta || '');
+      return (
+        <CodeLayout bordered={!!Number(boreder)} disableCheckered={!Number(checkered)} style={{ marginBottom: 16 }}>
+          <Preview>
+            <Child />
+          </Preview>
+          {!!Number(toolbar) && (
+            <Toolbar text={code} visibleButton={!!Number(codeNum)}>
+              {title || 'Code Example'}
+            </Toolbar>
+          )}
+
+          {!!Number(codeNum) && (
+            <Code tagName="pre" style={{ marginBottom: 0 }} className={props.className}>
+              {props.children}
+            </Code>
+          )}
+        </CodeLayout>
+      );
+    }
   }
-  const line = node?.position?.start.line;
-  const metaId = getMetaId(metaData) || String(line);
-  const Child = components[`${metaId}`];
-  if (metaId && typeof Child === 'function') {
-    const code = data[metaId].value || '';
-    const { title, boreder = 1, checkered = 1, code: codeNum = 1, toolbar = 1 } = getURLParameters(metaData || '');
-    return (
-      <CodeLayout bordered={!!Number(boreder)} disableCheckered={!Number(checkered)} style={{ marginBottom: 16 }}>
-        <Preview>
-          <Child />
-        </Preview>
-        {!!Number(toolbar) && (
-          <Toolbar text={code} visibleButton={!!Number(codeNum)}>
-            {title || 'Code Example'}
-          </Toolbar>
-        )}
-        {!!Number(codeNum) && (
-          <Code tagName="pre" style={{ marginBottom: 0 }}>
-            <code {...rest} />
-          </Code>
-        )}
-      </CodeLayout>
-    );
-  }
-  return <code {...rest} />;
+  return <code {...props} />;
 };
 
 export interface MarkdownProps extends MarkdownPreviewProps {
@@ -78,26 +79,10 @@ export default function Markdown(props: MarkdownProps) {
       disableCopy={true}
       rehypePlugins={[rehypeIgnore, ...(reset.rehypePlugins || [])]}
       {...reset}
-      rehypeRewrite={(node: Root | RootContent, index: number, parent: Root | Element) => {
-        if (node.type === 'element' && node.tagName === 'pre' && /(pre|code)/.test(node.tagName) && node.children[0]) {
-          const child = node.children[0] as Element;
-          // @ts-ignore
-          const meta = (child.data?.meta || child.properties?.dataMeta) as string;
-          if (isMeta(meta)) {
-            node.tagName = 'div';
-            if (!node.properties) {
-              node.properties = {};
-            }
-            node.properties['data-md'] = meta;
-            node.properties['data-meta'] = 'preview';
-          }
-        }
-        rehypeRewrite && rehypeRewrite(node, index, parent);
-      }}
       source={data.source}
       components={{
         ...components,
-        div: (rest) => <CodePreview {...rest} components={data.components} data={data.data} />,
+        pre: (rest) => <CodePreview {...rest} components={data.components} data={data.data} />,
       }}
     />
   );
