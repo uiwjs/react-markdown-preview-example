@@ -47,6 +47,7 @@ const Logo = styled.div`
   height: 24px;
   padding: 10px 0;
   svg {
+    width: 23px;
     height: 23px;
     margin: initial !important;
   }
