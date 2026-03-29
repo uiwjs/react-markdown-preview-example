@@ -21,6 +21,7 @@ const ExampleWrapper = styled.div`
 `;
 const Wrappper = styled.div`
   padding-bottom: 12rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
 `;
 
 const Header = styled.header`
